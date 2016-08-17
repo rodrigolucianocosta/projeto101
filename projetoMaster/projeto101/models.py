@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 
 class Pessoa(models.Model):
-	#matricula
+#	matricula = models.AutoField()
 	primeiro_nome = models.CharField(max_length=30)
 	sobrenome     = models.CharField(max_length=60)
 	#rua
@@ -22,10 +22,24 @@ class Paciente(Pessoa):
 	sintomas = models.CharField(max_length=100)
 	prontuario = models.CharField(max_length=100)
 
+	class Meta:
+		verbose_name = "Paciente"
+		verbose_name_plural = "Pacientes"
+
+	def __unicode__(self):
+		return u"%s %s "%(self.primeiro_nome, self.sobrenome)
+
 #medico herda os atributos de Pessoa
 class Medico(Pessoa):
 	crm = models.IntegerField()
 	especialidade = models.CharField(max_length=20)
+
+	class Meta:
+		verbose_name = "Medico"
+		verbose_name_plural = "Medicos"
+
+	def __unicode__(self):
+		return u"%s %s "%(self.primeiro_nome,self.sobrenome)
 
 class Consulta(models.Model):
 	prioridade = (
@@ -42,8 +56,14 @@ class Consulta(models.Model):
 #------------------------------------------------------------------
 	paciente = models.OneToOneField(Paciente)
 	medico   = models.OneToOneField(Medico)
-	observacoes = models.CharField(max_length=100,default='DEFAULT VALUE',blank=True, null=True
-)
+	observacoes = models.CharField(max_length=100,blank=True, null=True)
+	
+	
+	class Meta:
+		verbose_name = "Consulta"
+		verbose_name_plural = "Consultas"
 
+	def __unicode__(self):
+		return u"%s %s"%(self.medico, self.paciente)
 
 	
