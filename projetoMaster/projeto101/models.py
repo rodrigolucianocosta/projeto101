@@ -1,13 +1,14 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from django.utils.timezone import datetime
 # Create your models here.
 
 class Pessoa(models.Model):
 #	matricula = models.AutoField()
 	primeiro_nome = models.CharField(max_length=30)
 	sobrenome     = models.CharField(max_length=60)
+	data_nascimento = models.DateField(auto_now=False)
 	#rua
 	#numero
 	#bairro
@@ -42,6 +43,9 @@ class Medico(Pessoa):
 		return u"%s %s "%(self.primeiro_nome,self.sobrenome)
 
 class Consulta(models.Model):
+	data_consulta = models.DateField(auto_now=False)
+	hora_consulta = models.TimeField(auto_now=False)
+	
 	prioridade = (
 	('AL','Alta'),
 	('MD', 'Media'),
@@ -54,8 +58,8 @@ class Consulta(models.Model):
 	('EM', 'Emergencial'),
 	)
 #------------------------------------------------------------------
-	paciente = models.OneToOneField(Paciente)
-	medico   = models.OneToOneField(Medico)
+	paciente = models.OneToOneField(Paciente, on_delete=models.CASCADE)
+	medico   = models.OneToOneField(Medico,   on_delete=models.CASCADE)
 	observacoes = models.CharField(max_length=100,blank=True, null=True)
 	
 	
