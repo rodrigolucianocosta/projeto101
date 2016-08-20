@@ -1,39 +1,33 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
+from django.template import loader
 
-from .forms import NameForm
-
-# Create your views here.
-def get_name(request):
-	#if this is a POST request we need to process the form data
-	if request.method == 'POST':
-		#create a form instance and populate it with data from the request
-		form = NameForm(request.POST)
-		#check whether it's valid:
-		if form.is_valid():
-		#process data in form.cleaned_data as required
-		#..
-		# redirect to a new url
-			return HttpResponseRedirect('/thanks/')
-	#if a GET (or any other method ) we will create a blank form
-	else:
-		form = NameForm()
-
-	return render(request, 'index.html', {'form':form})
-
-def medico(request):
-	return render(request, 'medico.html')
+from .models import Consulta,Paciente,Medico
 
 
-def contact(request):
-	if form.is_valid():
-		subject = form.cleaned_data['subject']
-		message = form.cleaned_data['message']
-		sender  = form.cleaned_data['sender']
-		cc_myself = form.cleaned_data['cc_myself']
+# Create your views here
+#def index(request):
+#	latest_name_list = Paciente.objects.all()
+#	output = ', '.join([p.sobrenome for p in latest_name_list])
+#	return HttpResponse(output)
+#reescrevendo usando templates
 
-		recipients = ['rodrigolucianocosta@gmail.com']
-		if cc_myself:
-			recipients.append(sender)
-		send_mail(subject, message, sender, recipients)
-		return HttpResponseRedirect('/thanks/')
+def index(request):
+	latest_name_list = Paciente.objects.order_by('data_nascimento')[:5]
+#	template = loader.get_template('index.html')
+	context = {'latest_name_list': latest_name_list,}
+#	return HttpResponse(template.render(context, request))
+	return render(request, 'index.html', context)
+
+def detail(request, paciente_id):
+	try:
+		paciente = Paciente.objects.get(pk=paciente_id)
+	except Paciente.DoesNotExist:
+		raise Http404("Paciente does not exist")
+#	return HttpResponse("you are in the paciente %s" % paciente_id)
+	return render(request,'detail.html', {'paciente':paciente})
+
+	
+def results(request, paciente_id):
+	response = 'you are in the results of paciente %s'
+	return HttpResponse(response % paciente_id)

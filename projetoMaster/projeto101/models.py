@@ -5,23 +5,26 @@ from django.utils.timezone import datetime
 # Create your models here.
 
 class Pessoa(models.Model):
-#	matricula = models.AutoField()
+	#matricula = models.PositiveIntegerField(max_length=5)
+	#precisa ser auto increment e positiva
 	primeiro_nome = models.CharField(max_length=30)
 	sobrenome     = models.CharField(max_length=60)
 	data_nascimento = models.DateField(auto_now=False)
-	#rua
-	#numero
-	#bairro
-	#cidade
-	#estado
-	#telefone
-	#email
+
+#class Endereco(models.Model):
+	#rua = models.CharField(max_length = 100)
+	#numero = models.PositiveIntegerField(max_length=5)
+	#bairro = models.CharField(max_length = 50)
+	#cidade = models.CharField(max_length = 50)
+	#estado (choice)
+	#telefone (localFlavor)
+	#email = models.Emailfield()
 
 #paciente herda os atributos de Pessoa
 class Paciente(Pessoa):
-	#cartao_sus
+	cartao_sus = models.IntegerField() 
 	sintomas = models.CharField(max_length=100)
-	prontuario = models.CharField(max_length=100)
+	
 
 	class Meta:
 		verbose_name = "Paciente"
@@ -32,8 +35,8 @@ class Paciente(Pessoa):
 
 #medico herda os atributos de Pessoa
 class Medico(Pessoa):
-	crm = models.IntegerField()
-	especialidade = models.CharField(max_length=20)
+	crm = models.IntegerField()#numero do crm
+	especialidade = models.CharField(max_length=20)#especificar tipo de especialidade
 
 	class Meta:
 		verbose_name = "Medico"
