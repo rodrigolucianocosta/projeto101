@@ -8,12 +8,25 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 
-{% if latest_name_list %}
-	<ul>
-	{% for paciente in latest_name_list %}
-		<li> <a=href="{% url 'projeto101:detail' paciente.id %}">{{paciente.primeiro_nome}}</a>
-	{% endfor %}
-	</ul>
-{% else %}
-	<p> Sem pacientes avaliados </p>
-{% endif %}
+<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewpoint" content="width=device-width, initial-scale=1">
+			<title>  Projeto Consultar</title>
+		
+	</head>
+
+
+	<body>
+		<ul class="nav nav-pills nav-justified">
+		  <li role="presentation" class="active"><a href="#">Home</a></li>
+		  <li role="presentation"><a href="'detail'">Profile</a></li>
+		  <li role="presentation"><a href="#">Messages</a></li>
+		</ul>
+
+	</body>
+
+</html>
+

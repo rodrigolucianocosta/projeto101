@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect,Http404
-from django.template import loader
+from django.template import loader,Context
 
 from .models import Consulta,Paciente,Medico
 
@@ -8,18 +8,15 @@ from .models import Consulta,Paciente,Medico
 def index(request):
 	return render_to_response('index.html')
 
-
 def detail(request, paciente_id):
-#	try:
-#		paciente = Paciente.objects.get(pk=paciente_id)
-#	except Paciente.DoesNotExist:
-#		raise Http404("Paciente does not exist")
-#	return HttpResponse("you are in the paciente %s" % paciente_id)
-#	return render(request,'detail.html', {'paciente':paciente})
-	paciente = get_object_or_404(Paciente, pk=paciente_id)
-	return render(request, 'detail.html', {'paciente':paciente})
+	latest_name_list = Paciente.objects.all().order_by('-data_nascimento')[:5]
+	t = loader.get_template('detail.html')
+	c = Context({
+		'latest_name_list':latest_name_list,
+	})
+	return HttpResponse(t.render(c))
 	
-def results(request, paciente_id):
+def results(request):
 	response = 'you are in the results of paciente %s'
 	return HttpResponse(response % paciente_id)
 
