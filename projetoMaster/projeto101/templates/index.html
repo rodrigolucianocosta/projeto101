@@ -11,7 +11,7 @@
 {% if latest_name_list %}
 	<ul>
 	{% for paciente in latest_name_list %}
-		<li> <a=href/"projeto101/{{paciente_id}}/">{{paciente.primeiro_nome}}</a></li>
+		<li> <a=href="{% url 'projeto101:detail' paciente.id %}">{{paciente.primeiro_nome}}</a>
 	{% endfor %}
 	</ul>
 {% else %}

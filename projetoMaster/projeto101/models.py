@@ -24,6 +24,7 @@ class Pessoa(models.Model):
 class Paciente(Pessoa):
 	cartao_sus = models.IntegerField() 
 	sintomas = models.CharField(max_length=100)
+	vote = models.IntegerField(default=0)
 	
 
 	class Meta:
@@ -31,7 +32,7 @@ class Paciente(Pessoa):
 		verbose_name_plural = "Pacientes"
 
 	def __unicode__(self):
-		return u"%s %s "%(self.primeiro_nome, self.sobrenome)
+		return u"%s %s  "%(self.primeiro_nome, self.sobrenome)
 
 #medico herda os atributos de Pessoa
 class Medico(Pessoa):
